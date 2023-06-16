@@ -187,30 +187,10 @@ const Example = (props: any) => {
     });
   };
 
-  /**
-   * Capture frame works by sending an event to the native view.
-   * The native view then captures the frame and saves it to the device's file system,
-   * and emits an event with the path to the file back to the JS side.
-   * Listen to JS event via DeviceEventEmitter.addListener('onFrameCaptured', (event) => { // code here })
-   */
+
   const onCaptureFrame = () => {
     console.log('sending capture frame event to native module');
-    const viewId = findNodeHandle(twilioLocalVideoRef.current!);
-    const CAPTURE_FRAME_COMMAND_ID = 1;
-    if (Platform.OS === 'android') {
-      UIManager.dispatchViewManagerCommand(
-        viewId,
-        CAPTURE_FRAME_COMMAND_ID.toString(),
-        [viewId],
-      );
-    } else {
-      UIManager.dispatchViewManagerCommand(
-        viewId,
-        UIManager.getViewManagerConfig('RCTTWLocalVideoView').Commands
-          .captureFrame,
-        [],
-      );
-    }
+    twilioLocalVideoRef.current?.captureFrame();
   };
 
   return (
